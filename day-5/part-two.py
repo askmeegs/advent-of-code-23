@@ -233,8 +233,13 @@ for m in all_maps:
                 """
                 for the overlapping range encompassing both source and seed range, map to corresponding dest range 
                 based on the overlap values 
+                
+                -------             seed
+                   ---------        source
+                   ---------        dest (other values)
+                   ----             overlap, seed x source 
                 """
-                result[(o_start, o_end)] = (dest_start + o_start, dest_start + o_end)
+                result[(o_start, o_end)] = ()
                 # AFTER
                 if seed_end > o_end:
                     result[(o_end + 1, seed_end)] = (v_end - o_end, v_end)
