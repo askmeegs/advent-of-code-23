@@ -99,14 +99,17 @@ for line in h:
         t.append(int(x))
     seed_soil.append(t)   
 
-# SEEDS 
+# SEED PAIRS
 lines = lines[0]
 lines = lines.split("seeds: ")
-seeds = lines[1]
-seeds = seeds.split(' ')
-seeds = list(filter(None, seeds))
-seeds = [int(x) for x in seeds]
-
+raw_seeds = lines[1]
+raw_seeds = raw_seeds.split(" ")
+raw_seeds = list(filter(None, raw_seeds))
+raw_seeds = [int(x) for x in raw_seeds]
+# make list of seeds
+seeds = []
+for i in range(0, len(raw_seeds), 2):
+    seeds.append(raw_seeds[i])
 
 """
 Now we have a list of seeds numbers, then 7 raw lists of lists for:
