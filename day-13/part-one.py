@@ -80,21 +80,8 @@ def check_hlor(s1, s2):
         i -= 1
         j += 1
     return True
-# COMPARE COLUMNS - VERTICAL LINE OF REFLECTION?
-def check_vlor(s1, s2):
-    i = len(s1) - 1
-    j = 0 
-    # i => s1, walk backwards
-    while i >= 0 and j < len(s2):
-        print("i={}, j={}, s1[i]={}, s2[j]={}".format(i, j, s1[i], s2[j]))
-        if s1[i] != s2[j]:
-            return False
-        i -= 1
-        j += 1
-    return True
 
-
-for idx, i in enumerate(inp[16:17]):
+for idx, i in enumerate(inp):
     # print("\n\n 🏁 STARTING INPUT {}".format(i))
     hlor = False
     # check rows for HLOR
@@ -102,8 +89,8 @@ for idx, i in enumerate(inp[16:17]):
     while r < len(i):
         s1 = i[:r]
         s2 = i[r:]
-        print("\n🕵️‍♂️ r={}, checking horiz line of reflection for s1={}, s2={}".format(r, s1, s2))
-        if check_hlor(i[:r], i[r:]):
+        # print("\n↔️ r={}, checking horiz line of reflection for \ns1={}\ns2={}".format(r, s1, s2))
+        if check_hlor(s1, s2):
             hlors.append(r)
             hlor = True
             # print("✅ input {} has hlor after row {}".format(i, r))
@@ -112,23 +99,28 @@ for idx, i in enumerate(inp[16:17]):
     if hlor:
         continue
 
-    # else, check cols for VLOR
-    c = 1
+    # create a copy of i, rotated 90 degrees to the right 
+    # this will be used to check for VLOR
+    i90 = list(zip(*i[::-1]))
+    # convert list of tuples to list of strings
+    i90 = ["".join(t) for t in i90]
+    
+
+    print("⭐️ ROTATED 90 DEGREES")
+    pp(i90)
+    r = 1 
     vlor = False
-    while c < len(i[0]) - 1:
-        # s1 = columns in i up to c 
-        s1 = [x[:c] for x in i]
-        # s2 = columns in i after c
-        s2 = [x[c:] for x in i] 
-        print("\n🕵️‍♂️ c={}, checking vert line of reflection. s1 and s2 are:".format(c)) 
-        pp(s1)
-        pp(s2)
-        if check_vlor(s1, s2):
-            vlors.append(c)
+    while r < len(i90):
+        s1 = i90[:r]
+        s2 = i90[r:]
+        # print("\nr={}, checking vert line of reflection for \ns1={}\ns2={}".format(r, s1, s2))
+        if check_hlor(s1, s2):
+            vlors.append(r)
             vlor = True
-            # print("✅ input {} has vlor after col {}".format(i, c))
+            # print("✅ input {} has hlor after row {}".format(i, r))
             break
-        c += 1
+        r += 1
+    
     if not vlor and not hlor:
         print("\n ⚠️  input at index {} has no VLOR or HLOR:".format(idx))
         pp(i)
